@@ -14,13 +14,12 @@ To create a custom index which tracks major tech stocks such as Microsoft, Amazo
 
 ## High Level Architecture
 
-![Stock Analysis Solution Architecture](Stock Analysis Flowchart v1.drawio.png "Stock Analysis Solution Architecture")
+![Stock Analysis Solution Architecture](StockAnalysisFlowchartv1.drawio.png "Stock Analysis Solution Architecture")
 
 ## Finished Part
 
--[x] stockDataExtract.py takes argument as stock symbol and produces csv
-
-    This will be used as base for making lambda function, interacting with SNS Topic, RDS and API Gateway as shown above.
+- [x] stockDataExtract.py takes argument as stock symbol and produces csv
+This will be used as base for making lambda function, interacting with SNS Topic, RDS and API Gateway as shown above.
 
 ## Resources Used:
 
