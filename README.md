@@ -10,10 +10,20 @@ To create a custom index which tracks major tech stocks such as Microsoft, Amazo
 
 ## Current Progress:
 
-Currently DataExtract.ipynb conatins extraction and transformation of MSFT Stock.
+1) Creating py executable file which creates stock csv having info about stocks and the weight for creating Index
 
-Next step is to create py executable file from DataExtract which upon given stock ticker symbol loads(saves) the transformed table as csv in the directory. 
+## High Level Architecture
+
+![Stock Analysis Solution Architecture](Stock Analysis Flowchart v1.drawio.png "Stock Analysis Solution Architecture")
+
+## Finished Part
+
+-[x] stockDataExtract.py takes argument as stock symbol and produces csv
+
+    This will be used as base for making lambda function, interacting with SNS Topic, RDS and API Gateway as shown above.
 
 ## Resources Used:
 
 yfinance package: https://pypi.org/project/yfinance/ 
+
+Diagram made from draw.io : https://app.diagrams.net
