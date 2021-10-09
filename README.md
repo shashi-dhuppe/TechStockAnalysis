@@ -10,7 +10,7 @@ To create a custom index which tracks major tech stocks such as Microsoft, Amazo
 
 ## Current Progress:
 
-1) Creating py executable file which creates stock csv having info about stocks and the weight for creating Index
+1) Creating py executable file which reads stock table from RDS having info about stocks and a) creates individual stock tables b) Updates the base table's stock name field
 
 ## High Level Architecture
 
@@ -21,7 +21,7 @@ To create a custom index which tracks major tech stocks such as Microsoft, Amazo
 - [x] stockDataExtract.py takes argument as stock symbol and produces csv.
 This will be used as base for making lambda function, interacting with SNS Topic, RDS and API Gateway as shown above.
 
-- [] updateStockTable (as a lambda) deployed over RDS, which inserts stock info upon invoking
+- [x] updateStockTable (as a lambda) deployed over RDS invoked via API, which inserts stock symbol and weight upon invocation
 
 ## Resources Used:
 

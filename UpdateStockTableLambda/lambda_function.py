@@ -1,8 +1,10 @@
 # Importing Libraries
+import json
 import os
 import logging
 import sys
 import pymysql
+
 
 # rds settings
 rds_host = os.environ['rds_instance_endpoint']
@@ -24,17 +26,46 @@ logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
 
 def lambda_handler(event, context):
     
+    param = event['queryStringParameters']
+    
+    # Function to build query which takes i/p from API about stockName and stockWeight(optional)
+    def insertQueryBuilder():
+        pre = "INSERT INTO Stock (stock_symbol"
+        if 'sw' in param:
+            w = ",weight) VALUES ("
+            pre = pre + w
+        else:
+            pre = pre + ") VALUES("
+        
+        v1 = param['sname']
+        
+        if 'sw' in param:
+            v2 = param['sw']
+            post = "'"+v1 + "'," + str(v2) + ")"
+        
+        else:
+            post = "'"+v1 + "')"
+        
+        q = pre + post
+        
+        return q
+        
     with conn.cursor() as cur:
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS Stock 
-            ( 
-                stock_id INT AUTO_INCREMENT PRIMARY KEY,
-                stock_name varchar(255) NOT NULL, 
-                stock_symbol varchar(10) NOT NULL,
-                weight FLOAT
-            )
-        """)
+        
+        # cur.execute("""
+        #     CREATE TABLE IF NOT EXISTS Stock 
+        #     ( 
+        #         stock_id INT AUTO_INCREMENT PRIMARY KEY,
+        #         stock_name varchar(255) NOT NULL, 
+        #         stock_symbol varchar(10) NOT NULL,
+        #         weight FLOAT
+        #     )
+        # """)
+        # conn.commit()
+        
+        cur.execute(insertQueryBuilder())
         conn.commit()
+        
         cur.execute("select * from Stock")
         conn.commit()
         
@@ -42,5 +73,7 @@ def lambda_handler(event, context):
             logger.info(row)
     conn.commit()
     
-    # TODO implement
-    return "Query Successful"
+    return {
+        "statusCode": 200,
+        "body":json.dumps("Everything working fine")
+    }
