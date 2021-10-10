@@ -23,6 +23,8 @@ This will be used as base for making lambda function, interacting with SNS Topic
 
 - [x] updateStockTable (as a lambda) deployed over RDS invoked via API, which inserts stock symbol and weight upon invocation
 
+- [ ] buildStockIndividualTables (as a lambda) deployed connecting to RDS invoked via cloudWatch Rule
+
 ## Resources Used:
 
 1. yfinance package: https://pypi.org/project/yfinance/ 
