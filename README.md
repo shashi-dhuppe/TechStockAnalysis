@@ -12,6 +12,8 @@ To create a custom index which tracks major tech stocks such as Microsoft, Amazo
 
 1) Creating py executable file which reads stock table from RDS having info about stocks and a) creates individual stock tables b) Updates the base table's stock name field
 
+    1a) Providing internet to above Lambda to call yfinance API
+
 ## High Level Architecture
 
 ![Stock Analysis Solution Architecture](StockAnalysisFlowchartv1.drawio.png "Stock Analysis Solution Architecture")
