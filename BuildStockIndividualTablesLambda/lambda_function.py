@@ -16,54 +16,57 @@ password = os.environ['db_password']
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-try:
-    conn = pymysql.connect(host=rds_host, user=name, passwd=password, db=db_name,connect_timeout=5)
-except pymysql.MySQLError as e:
-    logger.error("ERROR: Unexpected error: Could not connect to MySQL instance.")
-    logger.error(e)
-    sys.exit()
+# try:
+#     conn = pymysql.connect(host=rds_host, user=name, passwd=password, db=db_name,connect_timeout=5)
+# except pymysql.MySQLError as e:
+#     logger.error("ERROR: Unexpected error: Could not connect to MySQL instance.")
+#     logger.error(e)
+#     sys.exit()
 
-logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
+# logger.info("SUCCESS: Connection to RDS MySQL instance succeeded")
 
 # This function takes stock name as an input and returns the INSERT Query string
 def etl(ticker):
     # Getting the stock ticker from yahoo finance
     stock = yf.Ticker(ticker)
 
-    # Getting the history of the stock for the last day
-    # df = stock.history(period="1d")
-    
-    # return df
-    # return str(stock)
+    # Get 1 day prior market data
+    df = stock.history(period="1d").reset_index()
 
-    # Sorting it so that latest data is first and then calculating the percentage change
-    # wrt to 1 day prior, 1 week prior and 1 month prior
+    # Converting and only choosing Date, Open, High, Low and Close Value
+    dfl = list(df.iloc[0,:5])
 
-    # df.sort_values(['Date'],ascending=False,inplace=True)
+    # Converting datetime to string and rounding all other values up to 4 precision points
+    dfl[0] = str(dfl[0])
+    for i in range(1,len(dfl)):
+        dfl[i] = round(dfl[i],4)
 
-    # df['Rel Change(%) - 1 day']=round((df['Open']-df['Open'].shift(-1))/df['Open']*100,4)
-    # df['Rel Change(%) - 7 day(1 week)']=round((df['Open']-df['Open'].shift(-7))/df['Open']*100,4)
-    # df['Rel Change(%) - 30 day(1 month)']=round((df['Open']-df['Open'].shift(-30))/df['Open']*100,4)
+    # Preparing insert string piece
+    s = str(dfl).replace('[','').replace(']','')
 
-    # df.to_csv(fname)
+    # Forming an INSERT Query
+    insert = 'INSERT IGNORE INTO '+str(ticker)+ "("+s + ");"
+
+    return insert
 
 def lambda_handler(event, context):
     
-    with conn.cursor() as cur:
+    # with conn.cursor() as cur:
         
-        # cur.execute("select stock_symbol from Stock")
-        # conn.commit()
+    #     # cur.execute("select stock_symbol from Stock")
+    #     # conn.commit()
         
-        stockSymbols = ['absakshdiashdo']
+    #     stockSymbols = ['absakshdiashdo']
         
-        # for row in cur:
-        #     stockSymbols.append(row[0])
+    #     # for row in cur:
+    #     #     stockSymbols.append(row[0])
             
-        # for i in stockSymbols:
-        #     print(etl(i))
-        #     break
+    #     # for i in stockSymbols:
+    #     #     print(etl(i))
+    #     #     break
             
-    print(etl(stockSymbols[0]))
+    # print(etl(stockSymbols[0]))
+    print(etl('AAPL'))
         
     #     # cur.execute(insertQueryBuilder())
     #     # conn.commit()

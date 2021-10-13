@@ -7,28 +7,31 @@ def etl(ticker):
 	# Getting the stock ticker from yahoo finance
 	stock = yf.Ticker(ticker)
 
-	# Getting the history of the stock for the last 32 days
-	df = stock.history(period="32d")
+	# Get 1 day prior market data
+	df = stock.history(period="1d").reset_index()
 
-	# Sorting it so that latest data is first and then calculating the percentage change
-	# wrt to 1 day prior, 1 week prior and 1 month prior
+	# Converting and only choosing Date, Open, High, Low and Close Value
+	dfl = list(df.iloc[0,:5])
 
-	df.sort_values(['Date'],ascending=False,inplace=True)
+	# Converting datetime to string and rounding all other values up to 4 precision points
+	dfl[0] = str(dfl[0])
+	for i in range(1,len(dfl)):
+		dfl[i] = round(dfl[i],4)
 
-	df['Rel Change(%) - 1 day']=round((df['Open']-df['Open'].shift(-1))/df['Open']*100,4)
-	df['Rel Change(%) - 7 day(1 week)']=round((df['Open']-df['Open'].shift(-7))/df['Open']*100,4)
-	df['Rel Change(%) - 30 day(1 month)']=round((df['Open']-df['Open'].shift(-30))/df['Open']*100,4)
+    # Preparing insert string piece
+	s = str(dfl).replace('[','').replace(']','')
 
-	fname = ticker + ".csv"
-	df.to_csv(fname)
+    # Forming an INSERT Query
+	insert = 'INSERT IGNORE INTO '+str(ticker)+ "("+s + ");"
+
+	return insert
 
 def main():
 
 	# This stockName should be read from some file
 	stockName = "aapl"
 	
-	etl(stockName)
-	print("Stock Data Saved Successfully")
+	print(etl(stockName))
 	return
 
 if __name__ == "__main__":
