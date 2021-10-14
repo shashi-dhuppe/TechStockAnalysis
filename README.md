@@ -10,13 +10,11 @@ To create a custom index which tracks major tech stocks such as Microsoft, Amazo
 
 ## Current Progress:
 
-1) Creating py executable file which reads stock table from RDS having info about stocks and a) creates individual stock tables b) Updates the base table's stock name field
-
-    1a) Providing internet to above Lambda to call yfinance API
+- Creating py executable file which reads stock names from S3 having info about stocks and creates individual stock tables in S3 
 
 ## High Level Architecture
 
-![Stock Analysis Solution Architecture](StockAnalysisFlowchartv1.drawio.png "Stock Analysis Solution Architecture")
+![Stock Analysis Solution Architecture](StockAnalysisFlowchartv1.png "Stock Analysis Solution Architecture")
 
 ## Task List
 
@@ -25,7 +23,9 @@ This will be used as base for making lambda function, interacting with SNS Topic
 
 - [x] updateStockTable (as a lambda) deployed over RDS invoked via API, which inserts stock symbol and weight upon invocation
 
-- [ ] buildStockIndividualTables (as a lambda) deployed connecting to RDS invoked via cloudWatch Rule
+- [ ] StockRDSToS3 (as a lambda) deployed, which reads from RDS and updates S3 txt file, invoked via CloudWatch Rule
+
+- [ ] buildStockIndividualTables (as a lambda) deployed, which reads from S3 and updates Table in RDS, invoked via cloudWatch Rule
 
 ## Resources Used:
 
@@ -34,3 +34,5 @@ This will be used as base for making lambda function, interacting with SNS Topic
 2. Diagram made from draw.io : https://app.diagrams.net/
 
 3. Cloud environment on AWS: https://aws.amazon.com/
+
+3. Help from kind people of StackOverflow:  https://stackoverflow.com/ 
