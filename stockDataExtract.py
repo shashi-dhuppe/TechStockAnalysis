@@ -26,11 +26,29 @@ def etl(ticker):
 
 	return insert
 
+def createStockTable(ticker):
+	pre = "CREATE TABLE IF NOT EXISTS "
+	post = """
+		(DateEntry DATETIME PRIMARY KEY,
+		Open FLOAT NOT NULL,
+		High FLOAT NOT NULL,
+		Low FLOAT NOT NULL,
+		Close FLOAT NOT NULL,
+		Volume FLOAT NOT NULL,
+		OneDayChange FLOAT,
+		OneWeekChange FLOAT,
+		OneMonthChange FLOAT
+		);
+	"""
+
+	return (pre + ticker + post)
+
 def main():
 
 	# This stockName should be read from some file
-	stockName = "aapl"
+	stockName = "AAPL"
 	
+	print(createStockTable(stockName))
 	print(etl(stockName))
 	return
 
