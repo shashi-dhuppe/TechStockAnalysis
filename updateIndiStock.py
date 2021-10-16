@@ -5,6 +5,8 @@ import pymysql
 import stock as s
 import config_stockAnalysis as csa
 
+from datetime import date
+
 def main():
 
 	# rds settings
@@ -26,24 +28,19 @@ def main():
 		cur.execute(temp)
 		conn.commit()
         
-		# for row in cur:
-		# 	cur.execute(s.createStockTable(row[0]))
-		# 	cur.execute(s.insert(row[0]))
-		# 	conn.commit()
-		
-		# conn.commit()
-
-		t2 = "Select * from Stock"
-		cur.execute(t2)
-
 		for row in cur:
-			print(row)
-
-	# This stockName should be read from some file
-	# stockName = "AAPL"
+			cur.execute(s.createStockTable(row[0]))
+			cur.execute(s.insert(row[0]))
+			conn.commit()
+		
+		conn.commit()
 	
-	# print(s.createStockTable(stockName))
-	# print(s.insert(stockName))
+	f = open("log_updateStock.txt", "a")
+	today = date.today()
+	f.write("\nToday's date: " + str(today))
+	f.close()
+
+
 	return
 
 if __name__ == "__main__":

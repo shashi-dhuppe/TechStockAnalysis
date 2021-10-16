@@ -1,0 +1,2 @@
+# Logs for updateStockIndiStock.py
+Today's date: 2021-10-16
