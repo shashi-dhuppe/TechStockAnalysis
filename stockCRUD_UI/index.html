@@ -2,15 +2,43 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="index_style.css">
 	<title>Stock Analysis Personal Project</title>
 </head>
 <body>
-	<h3> Adding Stock</h3>
-	<form action="https://vptqp53z9j.execute-api.us-east-2.amazonaws.com/dev/" method="post">
-		<input type="text" name="sname" value="">
-		<input type="text" name="sw">
-		<input type="submit" name="">
-	</form>
+	<h1>
+		Stock Analysis Custom Index and Recommendation
+	</h1>
+
+	<h2>
+		Project by Shashikant Dhuppe
+	</h2>
+
+	<div id = "content">
+
+		<div id ="primo">
+			<h3> Adding Stock</h3>
+			<form action="https://vptqp53z9j.execute-api.us-east-2.amazonaws.com/dev/" method="post">
+				<label> Enter the name of the Stock</label>
+				<input type="text" name="sname" value=""> <br>
+
+				<label> Enter the Weight of the Stock (Optional)</label>
+				<input type="text" name="sw" value=""> <br>
+
+				<input type="submit" value="Add the Stock">
+			</form>
+		</div>
+
+		<div id = "secondo">
+			<h3> Get info about Stock </h3>
+			<label> Enter the name of the Stock</label>
+			<input type="text" name="sname" value=""> <br><br>
+
+			<input type="submit" value="Fetch the Stock Name and Weight">
+
+		</div>
+
+	</div>
 
 </body>
 </html>

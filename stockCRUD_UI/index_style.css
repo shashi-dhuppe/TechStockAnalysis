@@ -1,0 +1,31 @@
+body {
+	background-color: lightblue;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	text-align: right;
+	color: blue;
+}
+
+h3 {
+	color: navy;
+}
+
+
+#primo { 
+	*display:inline-block;
+	width:50%;
+	vertical-align:top;
+	float:left;
+}
+
+#secondo { 
+	*display:inline-block;
+	width:50%; 
+	vertical-align:top;
+	float:right; 
+}
